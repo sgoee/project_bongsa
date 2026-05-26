@@ -1,80 +1,211 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인 메뉴</title>
-</head>
-<style>
-    html,
-    body {
-    margin: 0;
-    padding: 0;
-    }
-    .blind {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    }
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --bg-color: #f9fafb;
+            --text-color: #111827;
+            --sidebar-width: 250px;
+        }
 
-    header {
-    border-bottom: 1px solid #000;
-    }
-    a {
-    text-decoration: none;
-    }
-    .side_toggle_btn::before {
-    content: ">";
-    display: inline-block;
-    width: 50px;
-    line-height: 50px;
-    font-size: 24px;
-    text-align: center;
-    border-right: 1px solid #000;
-    }
+        * {
+            box-sizing: border-box;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
 
-    .side_input:checked + .side_toggle_btn::before {
-    content: "<";
-    }
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            height: 100%;
+            overflow: hidden;
+        }
 
-    .side_input:checked ~ .side_list {
-    left: 0;
-    }
+        .blind {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+        }
 
-    .side_list {
-    position: absolute;
-    left: -200px;
-    top: 50px;
-    bottom: 0;
-    border-right: 1px solid #000;
-    width: 200px;
-    font-size: 24px;
-    transition: 0.3s ease-in;
-    }
+        /* Header & Sidebar */
+        header {
+            height: 60px;
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
 
-    .side_link {
-    display: block;
-    text-align: center;
-    padding: 40px 0;
-    border-bottom: 1px solid #000;
-    }
-</style>
+        .side_toggle_btn {
+            cursor: pointer;
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .side_toggle_btn:hover {
+            background: #f3f4f6;
+        }
+
+        .side_toggle_btn::before {
+            content: "☰";
+        }
+
+        .side_input:checked + .side_toggle_btn::before {
+            content: "✕";
+        }
+
+        .side_list {
+            position: fixed;
+            left: calc(-1 * var(--sidebar-width));
+            top: 60px;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: #fff;
+            border-right: 1px solid #e5e7eb;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 99;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+            padding-top: 20px;
+        }
+
+        .side_input:checked ~ .side_list {
+            transform: translateX(var(--sidebar-width));
+        }
+
+        .side_link {
+            display: block;
+            padding: 15px 25px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .side_link:hover {
+            background: #f3f4f6;
+            color: var(--primary-color);
+            padding-left: 30px;
+        }
+
+        /* Main Content Layout */
+        main {
+            padding-top: 60px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 50px;
+        }
+
+        .header_box {
+            margin-top: 40px;
+            background: #fff;
+            padding: 20px 60px;
+            border: 2px solid var(--primary-color);
+            border-radius: 15px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .header_box h1 {
+            margin: 0;
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+
+        .center_content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80%;
+            max-width: 800px;
+            margin: 40px 0;
+            background: #fff;
+            border-radius: 20px;
+            border: 1px dashed #cbd5e1;
+            font-size: 32px;
+            font-weight: bold;
+            color: #94a3b8;
+        }
+
+        .bottom_links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .circle_btn {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+            text-align: center;
+            gap: 8px;
+        }
+
+        .circle_btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.4);
+        }
+
+        .circle_btn i {
+            font-size: 24px;
+        }
+
+    </style>
 </head>
 <body>
-<header>
-    <input type="checkbox" id="side_btn" class="side_input blind" />
-    <label for="side_btn" class="side_toggle_btn"></label>
-    <div class="side_list">
-    <a href="#" class="side_link", onclick="location.href='main.html'">메인화면</a>
-    <a href="#" class="side_link", onclick="location.href='data_analyze.html'">데이터 분석</a>
-    <a href="#" class="side_link", onclick="location.href='ai_api.html'">인공지능</a>
-    <a href="#" class="side_link">데이터 입력</a>
-    </div>
-</header>
+    <header>
+        <input type="checkbox" id="side_btn" class="side_input blind" />
+        <label for="side_btn" class="side_toggle_btn"></label>
+        <div class="side_list">
+            <a href="main.html" class="side_link">메인화면</a>
+            <a href="data_analyze.html" class="side_link">데이터 분석</a>
+            <a href="ai_api.html" class="side_link">인공지능 채팅</a>
+            <a href="#" class="side_link">데이터 입력</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="header_box">
+            <h1>환영합니다! 원하는 문구 여기에</h1>
+        </div>
+
+        <div class="center_content">
+        </div>
+
+
+    </main>
 </body>
 </html>
